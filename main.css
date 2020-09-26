@@ -24,11 +24,24 @@ body {
 	background-size: cover;
 	background-repeat: no-repeat;
 	padding: 1em;
-    width: 40%
+    width: 40%;
+    text-align: center;
+    
+    
+}
+.contents2 {
+	background-image: url('../img/bg.jpg');
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding: 1em;
+    width: 40%;
+    
 }
 .left-column:first-child {
 	width: 30%;
-    background-color: darkseagreen
+    background-color: darkseagreen;
+    text-align: right;
 }
 .menu {
 	height: 35%;
