@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Libre Baskerville";
+	color: #333;
+}
+header {
+	width: 100%;
+	height: 5em;
+	/*display: block;
+    columns: 2;*/
+	background-color: gray;
+    padding: 1em 1em;
+    clear: both;
+}
+.left_block{
+    padding: 1em 1em;
+
+    background-color: yellow;
+    text-align: right;
+    left: 0;
+
+}
+main {
+    position: relative;
+    columns:3;
+    column-gap: 0vw;
+    padding: 0;
+    margin:0;
+	width: 100%;
+	height: 44em;
+    border:0em;
+}
+main>div{
+    background-color: lightgray;
+    height: 100%;
+    
+    
+    border:0em;
+    margin: 0;
+}
+.bottom-right{
+    padding: 1em 1em;
+
+    background-color: indianred;
+
+/*    position:  absolute;*/
+
+    bottom:0;
+    text-align: left;
+    height:70%;
+    width: 100%;
+}
+.footer {
+    position: absolute;
+    bottom:0;
+    
+
+    width: 66.66666666666666666666%;
+    clear: both;
+    
+	/*display: block;
+    columns: 2;*/
+	background-color: gray;
+    padding: 1em 1em;
+    
+}
+.middle {
+    padding: 1em 1em;
+    text-align: center;
+}
+.navi{
+    height = 50%;
+    padding: 5em 0em;
+}
+a {
+	margin: 0 0.2em;
+	font-family: Arial;
+	color: #af4343;
+}
+p{
+    font-size: 20px;
+}

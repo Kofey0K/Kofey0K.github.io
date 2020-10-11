@@ -19,10 +19,7 @@ body {
 	padding: 1em;
 }
 .contents {
-	background-image: url('../img/bg.jpg');
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
+
 	padding: 1em;
     width: 40%;
     text-align: center;
@@ -30,10 +27,7 @@ body {
     
 }
 .contents2 {
-	background-image: url('../img/bg.jpg');
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
+
 	padding: 1em;
     width: 40%;
     
