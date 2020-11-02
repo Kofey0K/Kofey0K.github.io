@@ -33,9 +33,15 @@
     document.getElementById('middle').insertAdjacentHTML("beforeend", `${document.getElementById('numInput').value} `);
   
     if (numArray.length==10){
-        let minNum = numArray.sort()[0];
-        alert(`Minimal number is ${minNum}`);
+        numArray.sort();
+        let minNum = 1;
+        for(let i = 0; i < 9; i++){
+            if(numArray[i]==numArray[i+1]) {minNum++} 
+            else {break}
+        }
+        alert(`There are ${minNum} minimal numbers.`);
         setCookie('minNumber', minNum, 2);
+        alert(document.cookie);
         numArray=[];
         document.getElementById('middle').insertAdjacentHTML("beforeend", '<br>');
     }
