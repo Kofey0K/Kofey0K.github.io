@@ -18,7 +18,7 @@
   const b = 2;
   const sinab =0.5;
   findAreaOfTriangle(a, b, sinab, 'middle'); // complete task 2
-  //complete task 6
+  //task 6
   makeEditableBlock('header');
   makeEditableBlock('left_block');
   makeEditableBlock('middle');
@@ -26,7 +26,7 @@
   makeEditableBlock('bottom-right');
   makeEditableBlock('footer');
   initEditableBlocks();
-  // complete task 3
+  //task 3
   let numArray =[];
   document.querySelector('#numBtn').addEventListener('click', () => {
     numArray.push(document.getElementById('numInput').value);
@@ -41,13 +41,12 @@
         }
         alert(`There are ${minNum} minimal numbers.`);
         setCookie('minNumber', minNum, 2);
-        alert(document.cookie);
         numArray=[];
         document.getElementById('middle').insertAdjacentHTML("beforeend", '<br>');
     }
     
   });
-  //complete task 4
+  //task 4
   if(localStorage.getItem('textColor')) {
     document.querySelector('#colors').style.color = localStorage.getItem('textColor');
     document.querySelector('#colorInput').setAttribute('value', localStorage.getItem('textColor'))
@@ -57,12 +56,7 @@
     document.querySelector('#colors').style.color = this.value;
     localStorage.setItem('textColor' ,this.value);
   })
-  // complete task 5
-  
-  // document.querySelector('#selectBlock').addEventListener('select', () => {
-  //   const selection = event.target.value.substring(event.target.selectionStart, event.target.selectionEnd);
-  //   document.getElementById('selectLog').textContent = `You've just selected: ${selection}`;
-  // })
+
  })
 
  const swapText = (id1, id2) => {
@@ -89,8 +83,7 @@
   Array.from(document.getElementsByClassName('editArea')).map((area) => {
     area.addEventListener('change', (event) => {
       const newContent = event.target.value;
-      //localStorage.setItem(`${event.target.parentNode.id}Content`, newContent);
-      event.target.parentNode.children[0].innerHTML = newContent;
+      localStorage.setItem(`${event.target.parentNode.id}Content`, newContent);
      })
   })
   Array.from(document.getElementsByClassName('editBtn')).map((btn) => {
