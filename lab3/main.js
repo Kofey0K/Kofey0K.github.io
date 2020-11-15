@@ -4,12 +4,12 @@
  document.addEventListener('DOMContentLoaded', () => {
   if (performance.navigation.type == 1) { //on reload
     if(checkCookie('minNumber')){
-      if(window.confirm(`These Cookies have been created on this page: \n${document.cookie} \n Would you like to delete them?`)){
-          setCookie('minNumber','',2);
-          alert('Cookies were successfully deleted.');
+      alert(`These Cookies have been created on this page: \n${document.cookie} \n They will be deleted`);
+      setCookie('minNumber','',2);
+      alert('Cookies were successfully deleted.');
       }
     }
-  }
+  
   document.addEventListener('load', (event) => {
   	alert('Something loaded.');
   })
@@ -48,12 +48,12 @@
   });
   //task 4
   if(localStorage.getItem('textColor')) {
-    document.querySelector('#colors').style.color = localStorage.getItem('textColor');
+    document.querySelector('#middle').style.color = localStorage.getItem('textColor');
     document.querySelector('#colorInput').setAttribute('value', localStorage.getItem('textColor'))
   }
   document.querySelector('#colorInput').addEventListener('change', function(){
     console.log(this.value);
-    document.querySelector('#colors').style.color = this.value;
+    document.querySelector('#middle').style.color = this.value;
     localStorage.setItem('textColor' ,this.value);
   })
 
@@ -83,16 +83,23 @@
   Array.from(document.getElementsByClassName('editArea')).map((area) => {
     area.addEventListener('change', (event) => {
       const newContent = event.target.value;
-      localStorage.setItem(`${event.target.parentNode.id}Content`, newContent);
+        if (isHTML(newContent))localStorage.setItem(`${event.target.parentNode.id}Content`, newContent);
+        else{
+            Array.from(document.getElementsByClassName('editBtn')).map((btn) => {
+    btn.addEventListener('click', (event) => {
+      localStorage.removeItem(`${event.target.parentNode.id}Content`);
+      document.location.reload();
+        })
      })
-  })
+  }
+    })
   Array.from(document.getElementsByClassName('editBtn')).map((btn) => {
     btn.addEventListener('click', (event) => {
       localStorage.removeItem(`${event.target.parentNode.id}Content`);
       document.location.reload();
     })
   })
- }
+ })}
 
  const makeEditableBlock = (blockId) => {
    const content = localStorage.getItem(`${blockId}Content`) ? 
@@ -118,4 +125,9 @@
  const getCookie = (name) => {
    return checkCookie(name) ? document.cookie.split(';').find((c) => c.includes(name)).split('=')[1] : 0;
  }
+ 
+ const isHTML = (str) => {
+  var doc = new DOMParser().parseFromString(str, "text/html");
+  return Array.from(doc.body.childNodes).some(node => node.nodeType === 1);
+}
 
