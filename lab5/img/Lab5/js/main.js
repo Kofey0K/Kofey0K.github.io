@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		openWork();
 		document.getElementById("anim2").style.display = "none";
 		document.getElementById("anim1").style.display = "block";
-        $square.x=random(10, document.getElementById('anim1').offsetWidth-10);
-        $square1.y=random(10, document.getElementById('anim1').offsetHeight-10);
 		animType = 1;
 	});
 	let width_c, height_c, square_c, square_c1;
@@ -16,15 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
 		animType = 2;
 		width_c = $canvas.width = document.getElementById('anim2').offsetWidth;
 		height_c = $canvas.height = document.getElementById('anim2').offsetHeight;
-		square_c = new Square(10, Math.floor(width_c * Math.random()), 10, width_c, height_c, ctx);
+		square_c = new Square(15, width_c - 15, Math.floor(Math.random()*height_c), width_c, height_c, ctx);
 		square_c.draw();
-        square_c1 = new Square(10, 10, Math.floor(Math.random()*height_c), width_c, height_c, ctx);
+        square_c1 = new Square(15, Math.floor(width_c * Math.random()), height_c-15, width_c, height_c, ctx);
 		square_c1.draw1()
 	});
 	document.getElementById("closeWork").addEventListener("click", () => {
 		closeWork();
 		let logs = JSON.parse(localStorage.getItem('messageLog'));
-		const $logEl = document.getElementById('middle');
+		const $logEl = document.getElementById('block6');
 		$logEl.innerHTML = '';
 		logs.map((log) => {
 			$logEl.insertAdjacentHTML('beforeend', `
@@ -41,19 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	let $square = {
 		elem: document.getElementById('square'),
-		x: random(10, document.getElementById('anim1').offsetWidth-10),
+		x: 0,
 		y: 0,
-		velX: random(1, 3), 
-		velY: random(1, 3) 
+		velX: random(-1, 3), 
+		velY: random(-1, 3) 
 	};
     let $square1 = {
 		elem: document.getElementById('square1'),
 		x: 0,
-		y: random(10, document.getElementById('anim1').offsetHeight-10),
-		velX: random(1, 3), 
-		velY: random(1, 3) 
+		y: 0,
+		velX: random(-1, 3), 
+		velY: random(-1, 3) 
 	};
-    
 	let controlState = 0; // 0 - stoped, 1 - playing, 2 - ready for reload
 	let squareInt;
 	let squareInt1;
@@ -62,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('mainControl').addEventListener("click", (event) => {
 		if(controlState === 0){
 			controlState = 1;
-			event.target.innerHTML = "&#10074;&#10074;";
+			event.target.innerHTML = "&#x25A0;";
 			if(animType === 1) playJsAnim();
 			else if(animType === 2) {
                 playCanvasAnim(square_c, square_c1, width_c, height_c);
@@ -75,12 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		} else if(controlState === 2) {
 			controlState = 0;
 			event.target.innerHTML = "&#9658;";
-			if(animType === 1) {
-                
-                reloadJsAnim();
-                $square.x=random(10, document.getElementById('anim1').offsetWidth-10);
-                $square1.y=random(10, document.getElementById('anim1').offsetHeight-10);
-            }
+			if(animType === 1) reloadJsAnim();
 			else if(animType === 2) reloadCanvasAnim(square_c, width_c, height_c);
 		}
         
@@ -92,13 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Launched animation'}}))
 		const width = document.getElementById('anim1').offsetWidth;
 		const height = document.getElementById('anim1').offsetHeight;
-        
 		squareInt = setInterval(() => {
 			moveSquare($square, height, $square1);
-		}, 10)
+		}, 15)
         squareInt1 = setInterval(() => {
 			moveSquare1($square1, width);
-		}, 10)
+		}, 15)
 	}
 
 	const stopJsAnim = () => {
@@ -130,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			ctx.fillRect(0, 0, width, height);
 			square.draw();
 			square1.draw1();
-			square.updatePosition(square1);
+			square.updatePosition();
 			square1.updatePosition1();
 			requestAnimationFrame(frame);
 		}
@@ -144,10 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	const reloadCanvasAnim = (square, width, height) => {
 		document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Reloaded animation'}}))
-		square_c = new Square(10, Math.floor(width_c * Math.random()), height_c-10, width_c, height_c, ctx);
+		square_c = new Square(15, width_c - 15, 0, width_c, height_c, ctx);
 		square_c.draw()	
-        square_c1 = new Square(10, width_c - 10, Math.floor(Math.random()*height_c), width_c, height_c, ctx);
-		square_c1.draw1()	
 	}
 
 	document.addEventListener('leftArea', () => {
@@ -187,11 +176,6 @@ let leftArea = new Event('leftArea');
 
 const moveSquare = (square, height, square1) => {
 	
-    if(square.y <= square1.y + 10 && square1.y<= square.y + 10 && square.x <= square1.x + 10 && square1.x<= square.x + 10){
-            document.dispatchEvent(leftArea);
-        document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touch each other'}}));
-        }
-    
 	if(square.y + square.elem.offsetHeight + 5 >= height){
 		square.velY = -(square.velY)
 		document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touched bottom border'}}))
@@ -201,10 +185,11 @@ const moveSquare = (square, height, square1) => {
 	if(square.y < 0) {
 		square.velY = -(square.velY)
 		document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touched top border'}}))
-        
+        if(square1.x+15<=square.x && square.y<=square1.y+15){
+            document.dispatchEvent(leftArea);
+        }
 	}
-	square.y += square.velY*6;
-	square.elem.style.left = `${square.x}px`;
+	square.y += square.velY;
 	square.elem.style.top = `${square.y}px`;
 }
 const moveSquare1 = (square1, width) => {
@@ -216,8 +201,7 @@ const moveSquare1 = (square1, width) => {
 		square1.velX = -(square1.velX)
 		document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touched top border'}}))
 	}
-	square1.x += square1.velX*6;
-	square1.elem.style.top = `${square1.y}px`;
+	square1.x += square1.velX;
 	square1.elem.style.left = `${square1.x}px`;
 	
 }
@@ -227,18 +211,14 @@ class Square {
 		this.size = size;
 		this.x = x;
 		this.y = y;
-		this.velX = random(1, 3);
-		this.velY = random(1, 3);
+		this.velX = random(-1, 3);
+		this.velY = random(-1, 3);
 		this.canvasHeight = canvasHeight;
 		this.canvasWidth = canvasWidth;
 		this.ctx = ctx;
 	}
 
-	updatePosition (square1) {
-        if(this.y <= square1.y + square1.size && square1.y<= this.y + this.size && this.x <= square1.x + square1.size && square1.x<= this.x + this.size){
-            document.dispatchEvent(leftArea);
-            document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touch each other'}}));
-        }
+	updatePosition () {
         if(this.y + this.size >= this.canvasHeight) { 
         	this.velY = -(this.velY);
         	document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touched bottom border'}}))
@@ -248,7 +228,7 @@ class Square {
 	    	this.velY = -(this.velY);
 	    	document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touched top border'}}))
 	    }
-	    this.y += this.velY*6;
+	    this.y += this.velY;
 	}
     
     updatePosition1 () {
@@ -260,21 +240,15 @@ class Square {
 	    	this.velX = -(this.velX);
 	    	document.dispatchEvent(new CustomEvent('animMessage', {detail: {message: 'Touched left border'}}))
 	    }
-	    this.x += this.velX*6;
+	    this.x += this.velX;
 	}
 
 	draw () {
-		this.ctx.fillStyle = "rgba(254, 1, 1, 1)";
-		this.ctx.beginPath();
-        this.ctx.fillStyle = this.color;
-        this.ctx.arc(this.x, this.y, 10, 0, 2*Math.PI);
-        this.ctx.fill();
+		this.ctx.fillStyle = "rgba(0, 0, 254, 1)";
+		this.ctx.fillRect(this.x, this.y, this.size, this.size);
 	}
     draw1 () {
-		this.ctx.fillStyle = "rgba(0, 254, 1, 1)";
-		this.ctx.beginPath();
-        this.ctx.fillStyle = this.color;
-        this.ctx.arc(this.x, this.y, 10, 0, 2*Math.PI);
-        this.ctx.fill();
+		this.ctx.fillStyle = "rgba(254, 154, 54, 1)";
+		this.ctx.fillRect(this.x, this.y, this.size, this.size);
 	}
 }

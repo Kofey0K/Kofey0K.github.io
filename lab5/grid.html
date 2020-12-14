@@ -4,16 +4,29 @@
 	<title>Useful site</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="grid.css">
-    <script src="main.js"></script>	
+
 </head>
 <body>
     <header>
+        
     <div>
         <h1 style="float: left">Attention!</h1>
         <h1 style="float: right">Thanks for your attention</h1>
     </div>
     </header>
     <main>
+    <div class="modal" id="work"> 
+        <div id="controls">
+			<button class="controls__button" id="closeWork">&#10006;</button>
+			<button class="controls__button" id="mainControl">&#9658;</button>
+			<span id="messages">Messsage log</span>
+		</div>
+		<div id="anim1">
+			<div id="square"></div>
+			<div id="square1"></div>
+		</div>
+		<canvas id="anim2">Canvas not supported</canvas>
+	</div>
     <div class="left_block">
         <h2>What should i write here?</h2>
 		<br>
@@ -33,11 +46,10 @@
         </div>
         	
         <div class = "navi">
-        <nav>
-            <a href="index.html">Nothing page</a>
-			<a href="flex.html">Flexbox page</a>
-			<a href="grid.html">Grid page</a>
-        </nav>
+        <nav class="menu-block">
+                        <button id="play1" class="play">&#9658; JS</button>
+                        <button id="play2" class="play">&#9658; Canvas</button>
+                    </nav>
             </div>
         <div class="bottom-right">
         <p>All rise, Eyes bow,</p>
@@ -57,6 +69,6 @@
         
     </main>
     
-	
+    <script src="main.js"></script>		
 </body>
 </html>
